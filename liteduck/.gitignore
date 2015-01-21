@@ -7,3 +7,5 @@ obj/
 #Unity
 Library/
 Temp/
+Assets/UnityVS/Editor/UnityVS.VersionSpecific.dll
+Assets/UnityVS/Editor/UnityVS.VersionSpecific.dll.meta
