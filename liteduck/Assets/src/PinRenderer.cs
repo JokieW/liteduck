@@ -16,7 +16,7 @@ public class PinRenderer : MonoBehaviour
         Material m;
         if(!_MatLibrary.TryGetValue(color, out m))
         {
-            m = new Material(Resources.Load<Material>("Objects/Pin/Materials/basePinMat"));
+            m = new Material(Resources.Load<Material>("Sprites/Materials/test"));
             m.color = color;
             _MatLibrary.Add(color, m);
         }
@@ -31,7 +31,10 @@ public class PinRenderer : MonoBehaviour
 
     void Render()
     {
+        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+        Debug.Log("First a mem" + GC.GetTotalMemory(false));
         //Create pixel DB for rendering
+        sw.Start();
         Color[] pixels = image.GetPixels(0,0,image.width, image.height);
         Dictionary<Color, List<Vector2>> pixelDB = new Dictionary<Color, List<Vector2>>();
 
@@ -45,8 +48,13 @@ public class PinRenderer : MonoBehaviour
             }
             list.Add(new Vector2(i % image.width, i / image.width));
         }
+        sw.Stop();
+        Debug.Log("First b mem" + GC.GetTotalMemory(false));
+        Debug.Log("First done in " + sw.ElapsedMilliseconds);
 
         //Delete existing combined gameobjects
+        sw.Reset();
+        sw.Start();
         foreach (Transform child in transform)
         {
             if (child != transform)
@@ -54,8 +62,13 @@ public class PinRenderer : MonoBehaviour
                 GameObject.Destroy(child.gameObject);
             }
         }
+        sw.Stop();
+        Debug.Log("Second done in " + sw.ElapsedMilliseconds);
 
         //Create combined gameobjects
+        sw.Reset();
+        sw.Start();
+        Debug.Log("Third a mem" + GC.GetTotalMemory(false));
         int vertCount = pin.vertexCount;
         int maxPinPerObject = 65000 / vertCount;
 
@@ -92,7 +105,10 @@ public class PinRenderer : MonoBehaviour
             }
             mf.sharedMesh = MeshCombineUtility.Combine(mcu, false);
             mf.sharedMesh.RecalculateBounds();
-        }        
+        }
+        sw.Stop();
+        Debug.Log("Third a mem" + GC.GetTotalMemory(false));
+        Debug.Log("Third done in " + sw.ElapsedMilliseconds);
 	}
 	
 	// Update is called once per frame
