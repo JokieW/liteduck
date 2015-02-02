@@ -6,15 +6,20 @@ using System.Collections.Generic;
 public class PinRenderer : MonoBehaviour 
 {
     public Mesh pin;
-    public Texture2D image;
+    public RenderTexture image;
+    public Color chromaKey = new Color(0.0f, 1.0f, 0.0f);
+    public GameObject ParentObject;
     public float xspace = 0.17f;
     public float yspace = 0.15f;
+    
+    private Texture2D _internalTexture;
+    private MeshRenderer[] _matArray;
 
     private static Dictionary<Color, Material> _MatLibrary = new Dictionary<Color, Material>();
     private static Material GetMaterial(Color color)
     {
         Material m;
-        if(!_MatLibrary.TryGetValue(color, out m))
+        if (!_MatLibrary.TryGetValue(color, out m))
         {
             m = new Material(Resources.Load<Material>("Sprites/Materials/test"));
             m.color = color;
@@ -23,96 +28,42 @@ public class PinRenderer : MonoBehaviour
         return m;
     }
 
-	// Use this for initialization
-	void Start () 
+    void Start()
     {
-        Render();
+        int total = image.width * image.height;
+        _internalTexture = new Texture2D(image.width, image.height, TextureFormat.RGB24, false);
+        _matArray = new MeshRenderer[total];
+        for (int i = 0; i != total; i++)
+        {
+            GameObject go = new GameObject();
+            go.transform.parent = ParentObject.transform;
+            go.layer = 8;
+
+            go.AddComponent<MeshFilter>().sharedMesh = pin;
+            _matArray[i] = go.AddComponent<MeshRenderer>();
+        }
     }
 
-    void Render()
+    void OnPostRender()
     {
-        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-        Debug.Log("First a mem" + GC.GetTotalMemory(false));
-        //Create pixel DB for rendering
-        sw.Start();
-        Color[] pixels = image.GetPixels(0,0,image.width, image.height);
-        Dictionary<Color, List<Vector2>> pixelDB = new Dictionary<Color, List<Vector2>>();
+        _internalTexture.ReadPixels(new Rect(0, 0, image.width, image.height), 0, 0);
+        Color[] pixels = _internalTexture.GetPixels(0, 0, image.width, image.height);
 
         for (int i = 0; i != pixels.Length; i++)
         {
-            List<Vector2> list;
-            if (!pixelDB.TryGetValue(pixels[i], out list))
+            Vector2 temploc = new Vector2(i % _internalTexture.width, i / _internalTexture.width);
+            _matArray[i].transform.localPosition = new Vector3((temploc.y % 2 == 0 ? 0.085f : 0.0f) + (temploc.x * xspace), 0.0f, temploc.y * yspace);
+            if(pixels[i] == chromaKey)
             {
-                list = new List<Vector2>();
-                pixelDB.Add(pixels[i], list);
+                _matArray[i].enabled = false;
             }
-            list.Add(new Vector2(i % image.width, i / image.width));
-        }
-        sw.Stop();
-        Debug.Log("First b mem" + GC.GetTotalMemory(false));
-        Debug.Log("First done in " + sw.ElapsedMilliseconds);
-
-        //Delete existing combined gameobjects
-        sw.Reset();
-        sw.Start();
-        foreach (Transform child in transform)
-        {
-            if (child != transform)
+            else
             {
-                GameObject.Destroy(child.gameObject);
+                _matArray[i].enabled = true;
+                _matArray[i].sharedMaterial = GetMaterial(pixels[i]);
             }
+            
         }
-        sw.Stop();
-        Debug.Log("Second done in " + sw.ElapsedMilliseconds);
+    }
 
-        //Create combined gameobjects
-        sw.Reset();
-        sw.Start();
-        Debug.Log("Third a mem" + GC.GetTotalMemory(false));
-        int vertCount = pin.vertexCount;
-        int maxPinPerObject = 65000 / vertCount;
-
-        foreach (KeyValuePair<Color, List<Vector2>> kvp in pixelDB)
-        {
-            GameObject go = null;
-            MeshFilter mf = null;
-            MeshCombineUtility.MeshInstance[] mcu = null;
-            int count = 0;
-            int k = 0;
-            foreach (Vector2 v2 in kvp.Value)
-            {
-                if (go == null || k == maxPinPerObject)
-                {
-                    if (go != null)
-                    {
-                        mf.sharedMesh = MeshCombineUtility.Combine(mcu, false);
-                        mf.sharedMesh.RecalculateBounds();
-                    }
-                    go = new GameObject("Render #" + (count / maxPinPerObject) + " of " + kvp.Key);
-                    go.transform.parent = transform;
-                    mf = go.AddComponent<MeshFilter>();
-                    mcu = new MeshCombineUtility.MeshInstance[maxPinPerObject];
-                    k = 0;
-                    MeshRenderer mr = go.AddComponent<MeshRenderer>();
-                    mr.sharedMaterial = GetMaterial(kvp.Key);
-
-                }
-                mcu[k].mesh = pin;
-                mcu[k].subMeshIndex = 0;
-                mcu[k].transform = Matrix4x4.TRS(new Vector3((v2.y % 2 == 0 ? 0.085f : 0.0f) + (v2.x * xspace), 0.0f, v2.y * yspace), Quaternion.identity, Vector3.one) * transform.localToWorldMatrix;
-                k++;
-                count++;
-            }
-            mf.sharedMesh = MeshCombineUtility.Combine(mcu, false);
-            mf.sharedMesh.RecalculateBounds();
-        }
-        sw.Stop();
-        Debug.Log("Third a mem" + GC.GetTotalMemory(false));
-        Debug.Log("Third done in " + sw.ElapsedMilliseconds);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }
