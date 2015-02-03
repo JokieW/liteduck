@@ -7,6 +7,7 @@ public class PinRenderer : MonoBehaviour
 {
     public Mesh pin;
     public RenderTexture image;
+    public Texture2D overridePicture;
     public Color chromaKey = new Color(0.0f, 1.0f, 0.0f);
     public GameObject ParentObject;
     public float xspace = 0.17f;
@@ -30,7 +31,7 @@ public class PinRenderer : MonoBehaviour
 
     void Start()
     {
-        int total = image.width * image.height;
+        int total = overridePicture != null ? overridePicture.width * overridePicture.height : image.width * image.height;
         _internalTexture = new Texture2D(image.width, image.height, TextureFormat.RGB24, false);
         _matArray = new MeshRenderer[total];
         for (int i = 0; i != total; i++)
@@ -42,18 +43,30 @@ public class PinRenderer : MonoBehaviour
             go.AddComponent<MeshFilter>().sharedMesh = pin;
             _matArray[i] = go.AddComponent<MeshRenderer>();
         }
+        if (overridePicture != null)
+        {
+            RenderArray(overridePicture.GetPixels(), overridePicture.width, overridePicture.height);
+        }
     }
 
     void OnPostRender()
     {
-        _internalTexture.ReadPixels(new Rect(0, 0, image.width, image.height), 0, 0);
-        Color[] pixels = _internalTexture.GetPixels(0, 0, image.width, image.height);
+#if UNITY_EDITOR
+        if (UnityEditorInternal.InternalEditorUtility.HasPro()) 
+#endif
+        {
+            _internalTexture.ReadPixels(new Rect(0, 0, image.width, image.height), 0, 0);
+            RenderArray(_internalTexture.GetPixels(0, 0, image.width, image.height), _internalTexture.width, _internalTexture.height);
+        }
+    }
 
+    void RenderArray(Color[] pixels, int width, int height)
+    {
         for (int i = 0; i != pixels.Length; i++)
         {
-            Vector2 temploc = new Vector2(i % _internalTexture.width, i / _internalTexture.width);
+            Vector2 temploc = new Vector2(i % width, i / width);
             _matArray[i].transform.localPosition = new Vector3((temploc.y % 2 == 0 ? 0.085f : 0.0f) + (temploc.x * xspace), 0.0f, temploc.y * yspace);
-            if(pixels[i] == chromaKey)
+            if (pixels[i] == chromaKey)
             {
                 _matArray[i].enabled = false;
             }
@@ -62,7 +75,7 @@ public class PinRenderer : MonoBehaviour
                 _matArray[i].enabled = true;
                 _matArray[i].sharedMaterial = GetMaterial(pixels[i]);
             }
-            
+
         }
     }
 
