@@ -31,6 +31,7 @@ public class PinRenderer : MonoBehaviour
 
     void Start()
     {
+        
         int total = overridePicture != null ? overridePicture.width * overridePicture.height : image.width * image.height;
         _internalTexture = new Texture2D(image.width, image.height, TextureFormat.RGB24, false);
         _matArray = new MeshRenderer[total];
@@ -43,6 +44,7 @@ public class PinRenderer : MonoBehaviour
             go.AddComponent<MeshFilter>().sharedMesh = pin;
             _matArray[i] = go.AddComponent<MeshRenderer>();
         }
+        
         if (overridePicture != null)
         {
             RenderArray(overridePicture.GetPixels(), overridePicture.width, overridePicture.height);
