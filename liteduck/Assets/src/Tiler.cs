@@ -5,7 +5,9 @@ using System.Collections;
 public class Tiler : MonoBehaviour 
 {
     public Texture2D tile;
-
+    public BoxCollider collider;
+    public int xTiling = 1;
+    public int yTiling = 1;
 
 	// Use this for initialization
 	void Start () 
@@ -26,5 +28,13 @@ public class Tiler : MonoBehaviour
         Vector3 pos = transform.position * divider;
 
         transform.position = new Vector3(Mathf.Round(pos.x) / divider, Mathf.Round(pos.y) / divider, Mathf.Round(pos.z) / divider);
+
+        xTiling = Mathf.CeilToInt(transform.localScale.x / tile.width) ;
+        yTiling = Mathf.CeilToInt(transform.localScale.y / tile.height) ;
+        transform.localScale = new Vector3(xTiling * tile.width, yTiling * tile.height, 1.0f);
+        collider.size = new Vector3(xTiling * tile.width, yTiling * tile.height, 10.0f);
+        renderer.sharedMaterial.mainTextureScale = new Vector2(xTiling, yTiling);
 	}
+
+
 }
