@@ -12,18 +12,14 @@ public class TilerEditor : Editor
     {
         Tiler tiler = (Tiler)target;
 
-        _baseMat = (Material)EditorGUILayout.ObjectField("Base Material", _baseMat, typeof(Material));
         tiler.collider = (BoxCollider)EditorGUILayout.ObjectField("Collider", tiler.collider, typeof(BoxCollider));
 
         EditorGUI.BeginChangeCheck();
-        tiler.tile = (Texture2D)EditorGUILayout.ObjectField("Tile", tiler.tile, typeof(Texture2D));
+        tiler.renderer.sharedMaterial = (Material)EditorGUILayout.ObjectField("Tile", tiler.renderer.sharedMaterial, typeof(Material));
         if (EditorGUI.EndChangeCheck())
         {
-            Material mat  = new Material(_baseMat);
-            mat.SetTexture(0, tiler.tile);
-            tiler.transform.localScale = new Vector3(tiler.tile.width, tiler.tile.height, 1.0f);
-            tiler.GetComponent<MeshRenderer>().material = mat;
-            tiler.collider.size = new Vector3(tiler.tile.width, tiler.tile.height, 10.0f);
+            tiler.transform.localScale = new Vector3(tiler.renderer.sharedMaterial.GetTexture(0).width, tiler.renderer.sharedMaterial.GetTexture(0).height, 1.0f);
+            tiler.collider.size = new Vector3(tiler.renderer.sharedMaterial.GetTexture(0).width, tiler.renderer.sharedMaterial.GetTexture(0).height, 10.0f);
         }
     }
 }
