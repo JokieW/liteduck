@@ -47,7 +47,7 @@ public class PinRenderer : MonoBehaviour
         
         if (overridePicture != null)
         {
-            RenderArray(overridePicture.GetPixels(), overridePicture.width, overridePicture.height);
+            RenderArray(overridePicture.GetPixels(0, 0, overridePicture.width, overridePicture.height), overridePicture.width, overridePicture.height);
         }
     }
 

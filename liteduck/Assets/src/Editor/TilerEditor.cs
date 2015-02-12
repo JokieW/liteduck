@@ -13,6 +13,7 @@ public class TilerEditor : Editor
         Tiler tiler = (Tiler)target;
 
         tiler.collider = (BoxCollider)EditorGUILayout.ObjectField("Collider", tiler.collider, typeof(BoxCollider));
+        tiler.colliderType = (ColliderType)EditorGUILayout.EnumPopup("Type", tiler.colliderType);
 
         EditorGUI.BeginChangeCheck();
         tiler.renderer.sharedMaterial = (Material)EditorGUILayout.ObjectField("Tile", tiler.renderer.sharedMaterial, typeof(Material));

@@ -3,23 +3,51 @@ using System.Collections;
 
 public class DuckerControls : MonoBehaviour 
 {
-    bool grounded;
-    float ySpeed = 0.0f;
-	
+    bool _grounded;
+    float ySpeed = 0.0f, yFallRate = 0.35f, yJumpRate = 0.35f;
+    float maxY = 8.0f, midY = 2.0f, minY = -2.0f;
+    Timer _jumpTime, _hoverTime;
+
+    void Awake()
+    {
+        _jumpTime = new Timer(0.0f);
+        _hoverTime = new Timer(0.0f);
+    }
+
 	void Update () 
     {
-        TestGround();
-
-        if (!grounded)
+        if (!_grounded)
         {
-            if (ySpeed > -2.0f)
+            if (ySpeed > minY)
             {
-                ySpeed -= 0.35f;
+                if (_hoverTime.Check())
+                {
+                    ySpeed -= yFallRate / 2;
+                }
+                else
+                {
+                    ySpeed -= yFallRate;
+                }
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
-            ySpeed = 8.0f;
+            if (_grounded)
+            {
+                _grounded = false;
+                ySpeed = midY;
+                _jumpTime.Reset();
+                _jumpTime.Start(1.0f);
+            }
+            if (!_jumpTime.Check())
+            {
+                ySpeed += yJumpRate;
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.Space))
+        {
+            _hoverTime.Reset();
+            _hoverTime.Start(1.0f);
         }
         else
         {
@@ -29,20 +57,19 @@ public class DuckerControls : MonoBehaviour
         transform.Translate(new Vector3(1.0f, ySpeed, 0.0f) * Time.deltaTime * 21.0f);
         
 	}
-    void TestGround()
+
+    void OnCollisionEnter(Collision collision)
     {
-        RaycastHit rayhit;
-        BoxCollider col = GetComponent<BoxCollider>();
-        int layers = 1 << 10 | 1 << 11 | 1 << 12 | 1 << 13;
-        layers &= ~(1 << gameObject.layer);
-        Physics.Raycast(transform.position + col.center, Vector3.down, out rayhit, collider.bounds.extents.y + 1.0f, layers);
-        if (rayhit.collider == null || rayhit.collider == collider)
+        foreach (ContactPoint contact in collision.contacts)
         {
-            grounded = false;
-        }
-        else
-        {
-            grounded = true;
+            if (Mathf.Round(contact.normal.normalized.y) == 1.0f)
+            {
+                _grounded = true;
+                ySpeed = 0.0f;
+                break;
+            }
         }
     }
+    
+
 }
