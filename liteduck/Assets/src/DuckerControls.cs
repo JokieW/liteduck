@@ -3,10 +3,11 @@ using System.Collections;
 
 public class DuckerControls : MonoBehaviour 
 {
-    bool _grounded;
-    float ySpeed = 0.0f, yFallRate = 0.35f, yJumpRate = 0.35f;
-    float maxY = 8.0f, midY = 2.0f, minY = -2.0f;
-    Timer _jumpTime, _hoverTime;
+    public bool ducking = false;
+    private bool _grounded = true, _stoppedGoingUp = true;
+    private float ySpeed = 0.0f, yFallRate = 1f;
+    private float maxY = 4.0f, minY = -4.0f;
+    private Timer _jumpTime, _hoverTime;
 
     void Awake()
     {
@@ -16,45 +17,40 @@ public class DuckerControls : MonoBehaviour
 
 	void Update () 
     {
-        if (!_grounded)
+         if (_grounded)
+        {
+            ySpeed = 0.0f;
+        }
+        else if (!_grounded && _stoppedGoingUp)
         {
             if (ySpeed > minY)
             {
-                if (_hoverTime.Check())
-                {
-                    ySpeed -= yFallRate / 2;
-                }
-                else
-                {
-                    ySpeed -= yFallRate;
-                }
+                ySpeed -= yFallRate;
             }
         }
+        
         if (Input.GetKey(KeyCode.Space))
         {
             if (_grounded)
             {
                 _grounded = false;
-                ySpeed = midY;
+                ySpeed = maxY;
                 _jumpTime.Reset();
-                _jumpTime.Start(1.0f);
+                _jumpTime.Start(0.33f);
+                _stoppedGoingUp = false;
             }
-            if (!_jumpTime.Check())
+            if (_jumpTime.Check())
             {
-                ySpeed += yJumpRate;
+                _stoppedGoingUp = true;
             }
         }
         else if (Input.GetKeyUp(KeyCode.Space))
         {
-            _hoverTime.Reset();
-            _hoverTime.Start(1.0f);
+            _stoppedGoingUp = true;
         }
-        else
-        {
-            ySpeed = 0.0f;
-        }
+        
 
-        transform.Translate(new Vector3(1.0f, ySpeed, 0.0f) * Time.deltaTime * 21.0f);
+        transform.Translate(new Vector3(2.0f, ySpeed, 0.0f) * Time.deltaTime * 21.0f);
         
 	}
 
@@ -66,10 +62,18 @@ public class DuckerControls : MonoBehaviour
             {
                 _grounded = true;
                 ySpeed = 0.0f;
+
+                transform.position = new Vector3(transform.position.x, 
+                    collision.collider.bounds.center.y + 2.0f, 
+                    transform.position.z);
+
                 break;
             }
         }
     }
-    
 
+    void OnCollisionExit(Collision collision)
+    {
+        _grounded = false;
+    }
 }
