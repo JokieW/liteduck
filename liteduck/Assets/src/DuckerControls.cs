@@ -68,6 +68,7 @@ public class DuckerControls : MonoBehaviour
         if (Input.GetKey(KeyCode.X))
         {
             ducking = true;
+			SoundEngine.PlayClip("Dies");
         }
         if (Input.GetKeyUp(KeyCode.X))
         {
@@ -83,6 +84,7 @@ public class DuckerControls : MonoBehaviour
                 _jumpTime.Reset();
                 _jumpTime.Start(0.33f);
                 _stoppedGoingUp = false;
+				SoundEngine.PlayClip("Jumping_sound");
             }
             if (_jumpTime.Check())
             {

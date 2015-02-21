@@ -91,12 +91,14 @@ public class DuckerChanger : MonoBehaviour
         if(door != null)
         {
             SetAs(door.GameColor);
+			SoundEngine.PlayClip("Color_Change");
         }
         else
         {
             Spike spike = collider.gameObject.GetComponent<Spike>();
             if (spike != null)
             {
+				SoundEngine.PlayClip("Dies");
                 Application.LoadLevel(0);
             }
         }
