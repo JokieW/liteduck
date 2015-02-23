@@ -15,7 +15,7 @@ namespace Brix
         {
             if (!((MovieTexture)renderer.material.mainTexture).isPlaying)
             {
-                Application.LoadLevel(1);
+                Application.LoadLevel(4);
             }
         }
 	}

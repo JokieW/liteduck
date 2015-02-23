@@ -11,7 +11,7 @@ public class PressStart : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Space)){
-			Application.LoadLevel(0);
+			Application.LoadLevel(4);
 		}
 	}
 }

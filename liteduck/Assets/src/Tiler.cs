@@ -12,35 +12,42 @@ public class Tiler : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        
+        Texture tex = renderer.sharedMaterial.GetTexture(0);
+        xTiling = Mathf.CeilToInt(transform.localScale.x / tex.width);
+        yTiling = Mathf.CeilToInt(transform.localScale.y / tex.height);
+        renderer.sharedMaterial = new Material(renderer.sharedMaterial);
+        renderer.sharedMaterial.mainTextureScale = new Vector2(xTiling, yTiling);
     }
 	
 	void OnGUI () 
     {
-        int divider = 1;
-        if (Event.current.shift)
+        if (Application.isEditor)
         {
-            divider = 2;
-        }
-        Vector3 pos = transform.parent.position * divider;
+            int divider = 1;
+            if (Event.current.shift)
+            {
+                divider = 2;
+            }
+            Vector3 pos = transform.parent.position * divider;
 
-        transform.parent.position = new Vector3(Mathf.Round(pos.x) / divider, Mathf.Round(pos.y) / divider, Mathf.Round(pos.z) / divider);
+            transform.parent.position = new Vector3(Mathf.Round(pos.x) / divider, Mathf.Round(pos.y) / divider, Mathf.Round(pos.z) / divider);
 
-        Texture tex = renderer.sharedMaterial.GetTexture(0);
-        xTiling = Mathf.CeilToInt(transform.localScale.x / tex.width);
-        yTiling = Mathf.CeilToInt(transform.localScale.y / tex.height);
-        transform.localScale = new Vector3(xTiling * tex.width, yTiling * tex.height, 1.0f);
-        if (colliderType == ColliderType.Platform)
-        {
-            collider.size = new Vector3(xTiling * tex.width, yTiling * (tex.height/2), 10.0f);
-            collider.center = new Vector3(0.0f, -(tex.height / 4), 0.0f);
+            Texture tex = renderer.sharedMaterial.GetTexture(0);
+            xTiling = Mathf.CeilToInt(transform.localScale.x / tex.width);
+            yTiling = Mathf.CeilToInt(transform.localScale.y / tex.height);
+            transform.localScale = new Vector3(xTiling * tex.width, yTiling * tex.height, 1.0f);
+            if (colliderType == ColliderType.Platform)
+            {
+                collider.size = new Vector3(xTiling * tex.width, yTiling * (tex.height / 2), 10.0f);
+                collider.center = new Vector3(0.0f, -(tex.height / 4), 0.0f);
+            }
+            else
+            {
+                collider.size = new Vector3(xTiling * tex.width, yTiling * tex.height, 10.0f);
+                collider.center = Vector3.zero;
+            }
+            renderer.sharedMaterial.mainTextureScale = new Vector2(xTiling, yTiling);
         }
-        else
-        {
-            collider.size = new Vector3(xTiling * tex.width, yTiling * tex.height, 10.0f);
-            collider.center = Vector3.zero;
-        }
-        renderer.sharedMaterial.mainTextureScale = new Vector2(xTiling, yTiling);
 	}
 
 
