@@ -108,6 +108,7 @@ public class DuckerChanger : MonoBehaviour
             gameObject.layer = 13;
             colorOffset = 2;
         }
+        ApplySprite();
     }
 
     void SetCapeAs(GameColor color)
@@ -128,6 +129,7 @@ public class DuckerChanger : MonoBehaviour
         {
             capeColorOffset = 0;
         }
+        ApplySprite();
     }
     
 
