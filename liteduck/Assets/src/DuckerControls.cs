@@ -18,6 +18,10 @@ public class DuckerControls : MonoBehaviour
         }
         set
         {
+            if (value && !_ducking)
+            {
+                SoundEngine.PlayClip("Sliding_sound");
+            }
             BoxCollider bc = GetComponent<BoxCollider>();
             if (value)
             {
@@ -70,7 +74,7 @@ public class DuckerControls : MonoBehaviour
         if (Input.GetKey(KeyCode.X))
         {
             ducking = true;
-			SoundEngine.PlayClip("Dies");
+			
         }
         if (Input.GetKeyUp(KeyCode.X))
         {

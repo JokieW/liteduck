@@ -29,6 +29,7 @@ public class DuckerChanger : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.C) && capeColorOffset != 0)
         {
+            SoundEngine.PlayClip("Color_Change");
             if (capeColorOffset == 3)
             {
                 SetAs(GameColor.Yellow);
@@ -146,8 +147,8 @@ public class DuckerChanger : MonoBehaviour
                 Powerup powerup = collider.gameObject.GetComponent<Powerup>();
                 if (powerup != null)
                 {
-                    //SoundEngine.PlayClip("Dies");
                     SetCapeAs(powerup.Color);
+                    Destroy(collider.gameObject);
                 }
             }
         }
