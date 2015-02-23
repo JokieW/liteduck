@@ -5,7 +5,7 @@ public class DuckerChanger : MonoBehaviour
 {
     public Texture2D DuckSprite, CapeSprite;
     public MeshRenderer DuckRender, CapeRender;
-    public int colorOffset = 2, capeColorOffset = 2, frameOffset = -1;
+    public int colorOffset = 2, capeColorOffset = 3, frameOffset = -1;
     public DuckerControls controls;
     private Timer _frame;
     Texture2D _duckerSprite, _capeSprite;
@@ -17,14 +17,33 @@ public class DuckerChanger : MonoBehaviour
         _frame = new Timer(0.10f);
         _duckerSprite = new Texture2D(20, 15);
         _duckerSprite.filterMode = FilterMode.Point;
+        DuckRender.sharedMaterial = new Material(DuckRender.sharedMaterial);
         DuckRender.sharedMaterial.mainTexture = _duckerSprite;
         _capeSprite = new Texture2D(20, 15);
         _capeSprite.filterMode = FilterMode.Point;
+        CapeRender.sharedMaterial = new Material(CapeRender.sharedMaterial);
         CapeRender.sharedMaterial.mainTexture = _capeSprite;
     }
 
     void Update()
     {
+        if (Input.GetKey(KeyCode.C) && capeColorOffset != 0)
+        {
+            if (capeColorOffset == 3)
+            {
+                SetAs(GameColor.Yellow);
+            }
+            else if (capeColorOffset == 2)
+            {
+                SetAs(GameColor.Blue);
+            }
+            else if (capeColorOffset == 1)
+            {
+                SetAs(GameColor.Red);
+            }
+            SetCapeAs(GameColor.Neutral);
+        }
+
         int initialFrame = frameOffset;
         if (controls.ducking)
         {
@@ -85,6 +104,27 @@ public class DuckerChanger : MonoBehaviour
         }
     }
 
+    void SetCapeAs(GameColor color)
+    {
+        if (color == GameColor.Blue)
+        {
+            capeColorOffset = 2;
+        }
+        else if (color == GameColor.Red)
+        {
+            capeColorOffset = 1;
+        }
+        else if (color == GameColor.Yellow)
+        {
+            capeColorOffset = 3;
+        }
+        else
+        {
+            capeColorOffset = 0;
+        }
+    }
+    
+
     void OnTriggerEnter(Collider collider)
     {
         Door door = collider.gameObject.GetComponent<Door>();
@@ -98,8 +138,17 @@ public class DuckerChanger : MonoBehaviour
             Spike spike = collider.gameObject.GetComponent<Spike>();
             if (spike != null)
             {
-				SoundEngine.PlayClip("Dies");
+                SoundEngine.PlayClip("Dies");
                 Application.LoadLevel(0);
+            }
+            else
+            {
+                Powerup powerup = collider.gameObject.GetComponent<Powerup>();
+                if (powerup != null)
+                {
+                    //SoundEngine.PlayClip("Dies");
+                    SetCapeAs(powerup.Color);
+                }
             }
         }
     }

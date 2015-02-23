@@ -8,6 +8,8 @@ public class DuckerControls : MonoBehaviour
     private float maxY = 4.0f, minY = -4.0f;
     private Timer _jumpTime, _hoverTime;
     private bool _ducking = false;
+    private int _groundCount = 0;
+
     public bool ducking
     {
         get
@@ -103,24 +105,37 @@ public class DuckerControls : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        foreach (ContactPoint contact in collision.contacts)
+        if (collision.gameObject.tag == "Platform")
         {
-            if (Mathf.Round(contact.normal.normalized.y) == 1.0f)
+            foreach (ContactPoint contact in collision.contacts)
             {
-                _grounded = true;
-                ySpeed = 0.0f;
+                if (Mathf.Round(contact.normal.normalized.y) == 1.0f)
+                {
+                    _groundCount++;
+                    _grounded = true;
+                    ySpeed = 0.0f;
 
-                transform.position = new Vector3(transform.position.x,
-                    collision.collider.bounds.center.y + 2.0f,
-                    transform.position.z);
+                    transform.position = new Vector3(transform.position.x,
+                        collision.collider.bounds.center.y + 2.0f,
+                        transform.position.z);
 
-                break;
+                    break;
+                }
             }
         }
     }
 
     void OnCollisionExit(Collision collision)
     {
-        _grounded = false;
+
+        if (collision.gameObject.tag == "Platform")
+        {
+            _groundCount--;
+            if (_groundCount <= 0)
+            {
+                _grounded = false;
+                _groundCount = 0;
+            }
+        }
     }
 }

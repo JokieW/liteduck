@@ -1,7 +1,31 @@
 fileFormatVersion: 2
 guid: 77c1015eeb9891e4aa96786b22ab6ea9
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Power_Up_0
+    21300002: Power_Up_1
+    21300004: Power_Up_2
+    21300006: Power_Up_3
+    21300008: Power_Up_4
+    21300010: Power_Up_5
+    21300012: Power_Up_6
+    21300014: Power_Up_7
+    21300016: Power_Up_8
+    21300018: Power_Up_9
+    21300020: Power_Up_10
+    21300022: Power_Up_11
+    21300024: Power_Up_12
+    21300026: Power_Up_13
+    21300028: Power_Up_14
+    21300030: Power_Up_15
+    21300032: Power_Up_16
+    21300034: Power_Up_17
+    21300036: Power_Up_18
+    21300038: Power_Up_19
+    21300040: Power_Up_20
+    21300042: Power_Up_21
+    21300044: Power_Up_22
+    21300046: Power_Up_23
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -27,7 +51,7 @@ TextureImporter:
     filterMode: 0
     aniso: -1
     mipBias: -1
-    wrapMode: -1
+    wrapMode: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -37,11 +61,251 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
-  alphaIsTransparency: 0
+  spritePixelsToUnits: 25
+  alphaIsTransparency: 1
   textureType: 5
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: Power_Up_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 10
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_1
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 10
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_2
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 10
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_3
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 10
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_4
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 10
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_5
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 10
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_6
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 10
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_7
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 10
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_9
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 5
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_10
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 5
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_11
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 5
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_12
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 5
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_13
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 5
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_14
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 5
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_15
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 5
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_17
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 0
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_18
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 0
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_19
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 0
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_20
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 0
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_21
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 0
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_22
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 0
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power_Up_23
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 0
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
