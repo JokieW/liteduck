@@ -19,12 +19,12 @@ public class LoaderScript : MonoBehaviour {
 	private IEnumerator FadeIN()
 	{
 		float timer1 = 0.0f;
-		while (timer1<1.0f)
+		while (timer1<0.5f)
 		{
 			timer1+=Time.deltaTime;
 			yield return null;
 		}
-		float timer= 3.0f;
+		float timer= 1.5f;
 		while (timer > 0.0f) {
 			timer-=Time.deltaTime;
 			//ScreenFade = timer/3.0f;
@@ -34,7 +34,7 @@ public class LoaderScript : MonoBehaviour {
 			yield return null;
 		}
 		timer = 0.0f;
-		while (timer<2.0f)
+		while (timer<0.5f)
 		{
 			timer+=Time.deltaTime;
 			yield return null;

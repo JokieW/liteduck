@@ -14,6 +14,8 @@ public class DuckerChanger : MonoBehaviour
 
     void Start()
     {
+        
+
         _frame = new Timer(0.10f);
         _duckerSprite = new Texture2D(20, 15);
         _duckerSprite.filterMode = FilterMode.Point;
@@ -23,12 +25,40 @@ public class DuckerChanger : MonoBehaviour
         _capeSprite.filterMode = FilterMode.Point;
         CapeRender.sharedMaterial = new Material(CapeRender.sharedMaterial);
         CapeRender.sharedMaterial.mainTexture = _capeSprite;
-        ApplySprite();
+        if (colorOffset == 0)
+        {
+            SetAs(GameColor.Blue);
+        }
+        else if (colorOffset == 1)
+        {
+            SetAs(GameColor.Red);
+        }
+        else if (colorOffset == 2)
+        {
+            SetAs(GameColor.Yellow);
+        }
+
+        if (capeColorOffset == 2)
+        {
+            SetCapeAs(GameColor.Blue);
+        }
+        else if (capeColorOffset == 1)
+        {
+            SetCapeAs(GameColor.Red);
+        }
+        else if (capeColorOffset == 3)
+        {
+            SetCapeAs(GameColor.Yellow);
+        }
+        else if (capeColorOffset == 0)
+        {
+            SetCapeAs(GameColor.Neutral);
+        }
     }
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.C) && capeColorOffset != 0)
+        if (Input.GetKey(KeyCode.Z) && capeColorOffset != 0)
         {
             SoundEngine.PlayClip("Color_Change");
             if (capeColorOffset == 3)
@@ -147,7 +177,7 @@ public class DuckerChanger : MonoBehaviour
             if (spike != null)
             {
                 SoundEngine.PlayClip("Dies");
-                Application.LoadLevel(4);
+                Application.LoadLevel(2);
             }
             else
             {

@@ -71,17 +71,17 @@ public class DuckerControls : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.X))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
             ducking = true;
 			
         }
-        if (Input.GetKeyUp(KeyCode.X))
+        if (Input.GetKeyUp(KeyCode.DownArrow))
         {
             ducking = false;
         }
 
-        if (Input.GetKey(KeyCode.Z) && !ducking)
+        if (Input.GetKey(KeyCode.UpArrow) && !ducking)
         {
             if (_grounded)
             {
@@ -97,7 +97,7 @@ public class DuckerControls : MonoBehaviour
                 _stoppedGoingUp = true;
             }
         }
-        else if (Input.GetKeyUp(KeyCode.Z) || ducking)
+        else if (Input.GetKeyUp(KeyCode.UpArrow) || ducking)
         {
             _stoppedGoingUp = true;
         }

@@ -41,6 +41,11 @@ public class Tiler : MonoBehaviour
                 collider.size = new Vector3(xTiling * tex.width, yTiling * (tex.height / 2), 10.0f);
                 collider.center = new Vector3(0.0f, -(tex.height / 4), 0.0f);
             }
+            else if (colliderType == ColliderType.Spike)
+            {
+                collider.size = new Vector3(xTiling * (tex.width / 2), yTiling * (tex.height / 2), 10.0f);
+                collider.center = new Vector3(-(tex.width / 4), -(tex.height / 4), 0.0f);
+            }
             else
             {
                 collider.size = new Vector3(xTiling * tex.width, yTiling * tex.height, 10.0f);

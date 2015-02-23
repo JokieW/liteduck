@@ -7,15 +7,17 @@ namespace Brix
 {
 	public class MovieAutoplay : MonoBehaviour
 	{
+        public AudioSource source;
 		void Start()
 		{
             ((MovieTexture)renderer.material.mainTexture).Play();
+            source.Play();
 		}
         void Update()
         {
             if (!((MovieTexture)renderer.material.mainTexture).isPlaying)
             {
-                Application.LoadLevel(4);
+                Application.LoadLevel(2);
             }
         }
 	}
