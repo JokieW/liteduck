@@ -19,6 +19,7 @@ public class PowerChanger : MonoBehaviour
         _candySprite.filterMode = FilterMode.Point;
         CandyRender.sharedMaterial = new Material(CandyRender.sharedMaterial);
         CandyRender.sharedMaterial.mainTexture = _candySprite;
+        ApplySprite();
 
 	}
 	void Update()

@@ -23,6 +23,7 @@ public class DuckerChanger : MonoBehaviour
         _capeSprite.filterMode = FilterMode.Point;
         CapeRender.sharedMaterial = new Material(CapeRender.sharedMaterial);
         CapeRender.sharedMaterial.mainTexture = _capeSprite;
+        ApplySprite();
     }
 
     void Update()
@@ -75,15 +76,19 @@ public class DuckerChanger : MonoBehaviour
         }
         if (frameOffset != initialFrame)
         {
-            
-            Color[] pixels = DuckSprite.GetPixels(frameOffset * 20, colorOffset * 15, 20, 15);
-            _duckerSprite.SetPixels(0, 0, 20, 15, pixels);
-            _duckerSprite.Apply();
-
-            pixels = CapeSprite.GetPixels(frameOffset * 20, capeColorOffset * 15, 20, 15);
-            _capeSprite.SetPixels(0, 0, 20, 15, pixels);
-            _capeSprite.Apply();
+            ApplySprite();
         }
+    }
+
+    void ApplySprite()
+    {
+        Color[] pixels = DuckSprite.GetPixels(frameOffset * 20, colorOffset * 15, 20, 15);
+        _duckerSprite.SetPixels(0, 0, 20, 15, pixels);
+        _duckerSprite.Apply();
+
+        pixels = CapeSprite.GetPixels(frameOffset * 20, capeColorOffset * 15, 20, 15);
+        _capeSprite.SetPixels(0, 0, 20, 15, pixels);
+        _capeSprite.Apply();
     }
 
     void SetAs(GameColor color)
