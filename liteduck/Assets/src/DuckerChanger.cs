@@ -147,7 +147,7 @@ public class DuckerChanger : MonoBehaviour
             if (spike != null)
             {
                 SoundEngine.PlayClip("Dies");
-                Application.LoadLevel(0);
+                Application.LoadLevel(1);
             }
             else
             {
